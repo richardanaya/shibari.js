@@ -1,0 +1,19 @@
+<html>
+<head>
+    <script src="jquery.js"></script>
+    <script src="observe.polyfill.js"></script>
+    <script src="shibari.js"></script>
+    <script src="test.js"></script>
+</head>
+<body>
+    <div id="component0">
+        <input type="text" bind-value="fname">
+        <input type="text" bind-value="lname">
+        <input type="number" bind-value="age">
+        Projects
+        <div bind-context="projects">
+            URL: <a bind-content="url"></a>
+        </div>
+    </div>
+</body>
+</html>
