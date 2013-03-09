@@ -3,6 +3,12 @@ Shibari.js
 
 Shibari.js is a minimalistic library for binding of objects to HTML UI.
 
+Current Features:
+* Two-way binding on inputs
+* One-way binding on any attribute
+* Subcontexts
+* One-way element content binding
+
 Planned Features:
 * Converters
 * Validators
