@@ -47,7 +47,7 @@ var person = {
     }
 };
 
-Shibari.bind($('#component0').get(0),person);
+Shibari.bind(document.getElementById('component0'),person);
 ```
 
 Important Notes:
