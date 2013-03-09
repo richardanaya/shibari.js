@@ -12,6 +12,7 @@ Current Features:
 * One-way element content binding
 
 Planned Features:
+* Unbinding
 * Converters
 * Validators
 * Binding modes
