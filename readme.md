@@ -44,6 +44,7 @@ Shibari.bind($('#component0').get(0),person);
 Important Notes:
 ---
 * This library makes use of Object.observe or a polyfill if not present
+* Currently the only two-way bindings occur with input values
 * Currently depends on jquery
 
 How to build:
