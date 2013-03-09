@@ -4,6 +4,38 @@ var Shibari  = function(){
 
 Shibari.BIND_ATTRIBUTES_PREFIX = "bind-";
 
+Shibari.getAttribute = function(el,attr){
+    return $(el).attr(attr);
+};
+
+Shibari.setAttribute = function(el,attr,value){
+    $(el).attr(attr,value);
+};
+
+Shibari.getInputValue = function(el){
+    return $(el).val();
+};
+
+Shibari.setInputValue = function(el,value){
+    $(el).val(value);
+};
+
+Shibari.getChildren = function(el){
+    return $(el).children();
+};
+
+Shibari.setHTML = function(el,html){
+    $(el).html(html);
+};
+
+Shibari.onChange = function(el,callback){
+    $(el).change(callback);
+};
+
+Shibari.triggerEvent = function(el,eventName){
+    $(el).trigger(eventName);
+};
+
 Shibari.bind = function(el,context){
     if(!context){
         throw "Context does not exist";
@@ -16,10 +48,10 @@ Shibari.bind = function(el,context){
                 //do nothing
             }
             else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
-                Shibari.bindContentToValue(children[cel],attributes[i].name.substr(5),context,$(children[cel]).attr(attributes[i].name));
+                Shibari.bindContentToValue(children[cel],attributes[i].name.substr(5),context,Shibari.getAttribute(children[cel],attributes[i].name));
             }
             else if(attributes[i].name.indexOf(Shibari.BIND_ATTRIBUTES_PREFIX) == 0) {
-                Shibari.bindToValue(el,attributes[i].name.substr(5),context,$(el).attr(attributes[i].name));
+                Shibari.bindToValue(el,attributes[i].name.substr(5),context,Shibari.getAttribute(el,attributes[i].name));
             }
         }
     }
@@ -27,14 +59,14 @@ Shibari.bind = function(el,context){
 };
 
 Shibari.bindChildren = function(el,context){
-    var children = $(el).children();
+    var children = Shibari.getChildren(el);
     for(var cel=0; cel<children.length;cel++){
         var attributes = children[cel].attributes;
         var nextContext = context;
         if(attributes){
             for(var i = 0; i < attributes.length; i++) {
                 if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"context"){
-                    var con = context[$(children[cel]).attr(attributes[i].name)];
+                    var con = context[Shibari.getAttribute(children[cel],attributes[i].name)];
                     if(con){
                         nextContext = con;
                     }
@@ -43,22 +75,22 @@ Shibari.bindChildren = function(el,context){
                     }
                 }
                 if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
-                    Shibari.bindContentToValue(children[cel],attributes[i].name.substr(5),context,$(children[cel]).attr(attributes[i].name));
+                    Shibari.bindContentToValue(children[cel],attributes[i].name.substr(5),context,Shibari.getAttribute(children[cel],attributes[i].name));
                 }
                 else if(attributes[i].name.indexOf(Shibari.BIND_ATTRIBUTES_PREFIX) == 0) {
-                    Shibari.bindToValue(children[cel],attributes[i].name.substr(5),context,$(children[cel]).attr(attributes[i].name));
+                    Shibari.bindToValue(children[cel],attributes[i].name.substr(5),context,Shibari.getAttribute(children[cel],attributes[i].name));
                 }
             }
         }
         //if we have a new context
         if(nextContext != context){
-            if($(children[cel]).children().length>0){
+            if(Shibari.getChildren(children[cel]).length>0){
                 Shibari.bind(children[cel],nextContext);
             }
         }
         //otherwise bind children with the existing context
         else {
-            if($(children[cel]).children().length>0){
+            if(Shibari.getChildren(children[cel]).length>0){
                 Shibari.bindChildren(children[cel],nextContext);
             }
         }
@@ -66,9 +98,9 @@ Shibari.bindChildren = function(el,context){
 };
 
 Shibari.bindContentToValue = function(el,attrName,context,valueName){
-    $(el).html(context[valueName]);
+    Shibari.setHTML(el,context[valueName]);
     Object.observe(context,function(c){
-        $(el).html(context[valueName]);
+        Shibari.setHTML(el,context[valueName]);
     });
 };
 
@@ -79,11 +111,10 @@ Shibari.bindToValue = function(el,attrName,context,valueName){
     if(el.nodeName == "INPUT"){
         //if we are binding to value attribute, watch for input changes
         if(attrName=="value"){
-            $(el).change(function(){
-                console.log("input changed")
+            Shibari.onChange(el,function(){
                 if(!preventCircular){
                     preventCircular = true;
-                    var val = $(el).val();
+                    var val = Shibari.getInputValue(el);
                     context[valueName] = val;
                 }
                 else {
@@ -94,24 +125,23 @@ Shibari.bindToValue = function(el,attrName,context,valueName){
 
         //set value for the first time, but make sure it doesn't change object
         preventCircular = true;
-        $(el).attr(attrName,context[valueName]);
+        Shibari.setAttribute(el,attrName,context[valueName]);
         if(attrName=="value"){
-            $(el).trigger("change");
+            Shibari.triggerEvent(el,"change");
         }
 
         //watch for changes there on
         Object.observe(context,function(c){
             for(var i = 0; i < c.length; i++){
                 if(c[i].name == valueName){
-                    console.log("object changed")
                     if(!preventCircular){
                         preventCircular = true;
                         if(attrName=="value"){
-                            $(el).val(context[valueName]);
-                            $(el).trigger("change")
+                            Shibari.setInputValue(el,context[valueName]);
+                            Shibari.triggerEvent(el,"change")
                         }
                         else {
-                            $(el).attr(attrName,context[valueName]);
+                            Shibari.setAttribute(el,attrName,context[valueName]);
                         }
                     }
                     else {
@@ -124,7 +154,7 @@ Shibari.bindToValue = function(el,attrName,context,valueName){
     else {
         //if we are binding to anything other than an INPUT value, just make it a one way binding
         Object.observe(context,function(c){
-            $(el).attr(attrName,context[valueName]);
+            Shibari.setAttribute(el,attrName,context[valueName]);
         });
     }
 };

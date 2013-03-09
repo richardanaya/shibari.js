@@ -7,6 +7,7 @@ Planned Features:
 * Converters
 * Validators
 * Binding modes
+* Remove jquery dependency
 
 Example Usage:
 ----
@@ -38,3 +39,12 @@ Shibari.bind($('#component0').get(0),person);
 Important Notes:
 ---
 * This library makes use of Object.observe or a polyfill if not present
+* Currently depends on jquery
+
+How to build:
+---
+
+```BASH
+npm install buildify
+node build.js
+```
