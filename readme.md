@@ -9,6 +9,11 @@ Planned Features:
 * Binding modes
 * Remove jquery dependency
 
+Download:
+----
+
+Compressed Minified: [download](https://raw.github.com/richardanaya/Shibari.js/master/shibari.min.js)
+
 Example Usage:
 ----
 ```HTML
