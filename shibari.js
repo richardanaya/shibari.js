@@ -43,6 +43,18 @@ Shibari.triggerEvent = function(el,eventName){
     $(el).trigger(eventName);
 };
 
+Shibari.getFirstChild = function(el) {
+    return $(el).children(0);
+};
+
+Shibari.clone = function(el) {
+    return $(el).clone();
+};
+
+Shibari.append = function(el,newEl) {
+    $(el).append(newEl);
+};
+
 Shibari.bind = function(el,context){
     if(!context){
         throw "Context does not exist";
@@ -51,14 +63,26 @@ Shibari.bind = function(el,context){
     var attributes = el.attributes;
     if(attributes){
         for(var i = 0; i < attributes.length; i++) {
+            var hasTemplate = false;
+            var template = null;
             if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"context"){
                 //do nothing
             }
             else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
-                Shibari.bindContentToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
+                Shibari.bindContentToValue(el,attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
+            }
+            else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"template"){
+                hasTemplate = true;
+                template = Shibari.getAttribute(el,attributes[i].name);
             }
             else if(attributes[i].name.indexOf(Shibari.BIND_ATTRIBUTES_PREFIX) == 0) {
                 Shibari.bindToValue(el,attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(el,attributes[i].name));
+            }
+
+            //if we have a template, lets let the template binding manage it from here
+            if(hasTemplate){
+                Shibari.bindTemplateToValue(el,attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,template);
+                return;
             }
         }
     }
@@ -71,6 +95,8 @@ Shibari.bindChildren = function(el,context){
         var attributes = children[cel].attributes;
         var nextContext = context;
         if(attributes){
+            var hasTemplate = false;
+            var template = null;
             for(var i = 0; i < attributes.length; i++) {
                 if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"context"){
                     var con = context[Shibari.getAttribute(children[cel],attributes[i].name)];
@@ -84,11 +110,19 @@ Shibari.bindChildren = function(el,context){
                 else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
                     Shibari.bindContentToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
                 }
-                else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
-                    Shibari.bindContentToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
+                else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"template"){
+                    //we need to trigger a flag so this is done last
+                    hasTemplate = true;
+                    template = Shibari.getAttribute(children[cel],attributes[i].name);
                 }
                 else if(attributes[i].name.indexOf(Shibari.BIND_ATTRIBUTES_PREFIX) == 0) {
                     Shibari.bindToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
+                }
+
+                //if we have a template, lets let the template binding manage it from here
+                if(hasTemplate){
+                    Shibari.bindTemplateToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,template);
+                    return;
                 }
             }
         }
@@ -160,6 +194,19 @@ Shibari.evaluateFromValue = function(element,bindingData){
     }
     else {
         return Shibari.getInputValue(element);
+    }
+};
+
+Shibari.bindTemplateToValue = function(el,attrName,context,bindingDataString){
+    var bd = Shibari.parseBindingData(bindingDataString);
+    var list = context[bd.path];
+    var template = Shibari.getFirstChild(el);
+    Shibari.setHTML(el,"");
+    for(var i = 0 ; i < list.length; i++){
+        var listItem = list[i];
+        var clone = Shibari.clone(template);
+        Shibari.bind(clone,listItem);
+        Shibari.append(el,clone);
     }
 };
 

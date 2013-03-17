@@ -18,11 +18,25 @@ $(document).ready(function(){
 
     Shibari.addConverter("price",
         {
-            to: function(value){  return "$"+value; },
-            from: function(value){ return parseFloat(value.substring(1)); }
+            to: function(value){
+                return "$"+value;
+            },
+            from: function(value){
+                var n = value.substring(1);
+                if(n.indexOf(".")!=-1){
+                    return parseFloat(n);
+                }
+                else {
+                    return parseInt(n);
+                }
+            }
         }
     );
 
     Shibari.bind($('#component0').get(0),a);
     Shibari.bind($('#component1').get(0),b);
+
+    setInterval(function(){
+        b.books[0].price += Math.random();
+    },1000)
 });
