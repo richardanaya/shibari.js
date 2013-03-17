@@ -27,12 +27,12 @@ Example Usage:
 ----
 ```HTML
 <div id="component0">
-    <input type="text" bind-value="fname">
-    <input type="text" bind-value="lname">
-    <input type="number" bind-value="age">
+    <input type="text" data-bind-value="fname">
+    <input type="text" data-bind-value="lname">
+    <input type="number" data-bind-value="age">
     Projects
-    <div bind-context="projects">
-        URL: <a bind-content="url"></a>
+    <div data-bind-context="projects">
+        URL: <a data-bind-content="url"></a>
     </div>
 </div>
 ```
