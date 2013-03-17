@@ -3,13 +3,26 @@ $(document).ready(function(){
         fname: "Richard",
         lname: "Anaya",
         age: 30,
+        costOfBeer: 2.5,
         projects: {
             url: "http://github.com/richardanaya"
         }
     };
 
+    var b = {
+        books:  [
+            {name:"Catcher and the Rye", price: 10},
+            {name:"Calvin and Hobbes", price: 15},
+        ]
+    };
+
+    Shibari.addConverter("price",
+        {
+            to: function(value){  return "$"+value; },
+            from: function(value){ return parseFloat(value.substring(1)); }
+        }
+    );
+
     Shibari.bind($('#component0').get(0),a);
-    /*setInterval(function(){
-        a.age = Math.floor(100*Math.random());
-    },10000)*/
+    Shibari.bind($('#component1').get(0),b);
 });

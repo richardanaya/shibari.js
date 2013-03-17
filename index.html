@@ -10,9 +10,19 @@
         <input type="text" bind-value="fname">
         <input type="text" bind-value="lname">
         <input type="number" bind-value="age">
+        <input type="text" bind-value="path:costOfBeer,converter:price">
         Projects
         <div bind-context="projects">
             URL: <a bind-content="url"></a>
+        </div>
+    </div>
+
+    <div id="component1">
+        <div data-bind-template="books">
+            <div>
+                <div data-bind-content="name"></div>
+                <div data-bind-content="path:price,converter:price"></div>
+            </div>
         </div>
     </div>
 </body>
