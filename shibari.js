@@ -5,7 +5,7 @@ var Shibari  = function(){
 Shibari.converters = {};
 Shibari.BINDING_DIRECTION_TWO_WAY = 0;
 Shibari.BINDING_DIRECTION_ONE_WAY = 1;
-Shibari.BIND_ATTRIBUTES_PREFIX = "bind-";
+Shibari.BIND_ATTRIBUTES_PREFIX = "data-bind-";
 
 Shibari.addConverter = function(name,converter){
     Shibari.converters[name] = converter;
@@ -55,10 +55,10 @@ Shibari.bind = function(el,context){
                 //do nothing
             }
             else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
-                Shibari.bindContentToValue(children[cel],attributes[i].name.substr(5),context,Shibari.getAttribute(children[cel],attributes[i].name));
+                Shibari.bindContentToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
             }
             else if(attributes[i].name.indexOf(Shibari.BIND_ATTRIBUTES_PREFIX) == 0) {
-                Shibari.bindToValue(el,attributes[i].name.substr(5),context,Shibari.getAttribute(el,attributes[i].name));
+                Shibari.bindToValue(el,attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(el,attributes[i].name));
             }
         }
     }
@@ -81,11 +81,14 @@ Shibari.bindChildren = function(el,context){
                         throw "Context does not exist";
                     }
                 }
-                if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
-                    Shibari.bindContentToValue(children[cel],attributes[i].name.substr(5),context,Shibari.getAttribute(children[cel],attributes[i].name));
+                else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
+                    Shibari.bindContentToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
+                }
+                else if(attributes[i].name == Shibari.BIND_ATTRIBUTES_PREFIX+"content"){
+                    Shibari.bindContentToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
                 }
                 else if(attributes[i].name.indexOf(Shibari.BIND_ATTRIBUTES_PREFIX) == 0) {
-                    Shibari.bindToValue(children[cel],attributes[i].name.substr(5),context,Shibari.getAttribute(children[cel],attributes[i].name));
+                    Shibari.bindToValue(children[cel],attributes[i].name.substr(Shibari.BIND_ATTRIBUTES_PREFIX.length),context,Shibari.getAttribute(children[cel],attributes[i].name));
                 }
             }
         }

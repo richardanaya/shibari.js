@@ -9,13 +9,14 @@ Current Features:
 * Two-way binding on inputs
 * One-way binding on any attribute
 * Subcontexts
+* Converters
+* Binding modes
 * One-way element content binding
 
 Planned Features:
+* Array-binding
 * Unbinding
-* Converters
 * Validators
-* Binding modes
 * Remove jquery dependency
 
 Download:
