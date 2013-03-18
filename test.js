@@ -1,38 +1,19 @@
 $(document).ready(function(){
-    var a = {
-        fname: "Richard",
-        lname: "Anaya",
-        age: 30,
-        costOfBeer: 2.5,
-        projects: {
-            url: "http://github.com/richardanaya"
-        }
-    };
-
-    var b = {
-        books:  [
-            {name:"Catcher and the Rye", price: 10},
-            {name:"Calvin and Hobbes", price: 15},
+    var roster = {
+        developers : [
+            {firstname:"Howard",lastname:"Smith"},
+            {firstname:"Jason",lastname:"Dunn"},
+            {firstname:"Jack",lastname:"Standard"},
+            {firstname:"Richard",lastname:"Anaya"}
         ]
     };
 
-    Shibari.addConverter("price",
-        {
-            to: function(value){
-                return "$"+value;
-            },
-            from: function(value){
-                var n = value.substring(1);
-                if(n.indexOf(".")!=-1){
-                    return parseFloat(n);
-                }
-                else {
-                    return parseInt(n);
-                }
-            }
-        }
-    );
+    Shibari.bind(document.getElementById('component'),roster);
 
-    Shibari.bind($('#component0').get(0),a);
-    Shibari.bind($('#component1').get(0),b);
+    //do whatever operations you want on the array itself
+    roster.developers.sort(function(a,b){
+        if(a.lastname<b.lastname) return -1;
+        if(a.lastname>b.lastname) return 1;
+        return 0;
+    })
 });

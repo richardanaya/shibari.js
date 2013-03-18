@@ -8,24 +8,10 @@
     <script src="test.js"></script>
 </head>
 <body>
-    <div id="component0">
-        <input type="text" data-bind-value="fname">
-        <input type="text" data-bind-value="lname">
-        <input type="number" data-bind-value="age">
-        <input type="text" data-bind-value="path:costOfBeer,converter:price">
-        Projects
-        <div data-bind-context="projects">
-            URL: <a data-bind-content="url"></a>
-        </div>
+<div id="component" data-bind-template="developers">
+    <div class="developer">
+        <span data-bind-content="lastname"></span>, <span data-bind-content="firstname"></span>
     </div>
-
-    <div id="component1">
-        <div data-bind-template="books">
-            <div>
-                <div data-bind-content="name"></div>
-                <div data-bind-content="path:price,converter:price"></div>
-            </div>
-        </div>
-    </div>
+</div>
 </body>
 </html>

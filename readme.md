@@ -70,14 +70,16 @@ Shibari.bind(document.getElementById('component'),item);
 Example Template:
 ----
 ```HTML
-<div id="component" data-bind-template="students">
-    <span data-bind-content="lastname"></span>,<span data-bind-content="firstname"></span>
+<div id="component" data-bind-template="developers">
+    <div class="developer">
+        <span data-bind-content="lastname"></span>, <span data-bind-content="firstname"></span>
+    </div>
 </div>
 ```
 
 ```Javascript
 var roster = {
-    developers = [
+    developers : [
         {firstname:"Howard",lastname:"Smith"},
         {firstname:"Jason",lastname:"Dunn"},
         {firstname:"Jack",lastname:"Standard"},
@@ -89,11 +91,10 @@ Shibari.bind(document.getElementById('component'),roster);
 
 //do whatever operations you want on the array itself
 roster.developers.sort(function(a,b){
-    if(a.fname<b.firstname) return -1;
-    if(a.firstname>b.firstname) return 1;
+    if(a.lastname<b.lastname) return -1;
+    if(a.lastname>b.lastname) return 1;
     return 0;
 })
-
 ```
 
 Important Notes:
