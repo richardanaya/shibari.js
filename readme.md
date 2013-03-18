@@ -41,30 +41,31 @@ var person = {
 };
 
 Shibari.bind(document.getElementById('component'),person);
+```
 
 Example Converter:
-   ----
-   ```HTML
-   <div id="component">
-       <input type="text" data-bind-value="name">
-       <input type="text" data-bind-value="price">
-   </div>
-   ```
+----
+```HTML
+<div id="component">
+   <input type="text" data-bind-value="name">
+   <input type="text" data-bind-value="price">
+</div>
+```
 
-   ```Javascript
-   var item = {
-       name: "Beer",
-       price: 2.5
-   };
+```Javascript
+var item = {
+   name: "Beer",
+   price: 2.5
+};
 
-   Shibari.addConverter("price",
-           {
-               to: function(value){ return "$"+value; },
-               from: function(value){ return parseFloat(value.substring(1)); }
-           });
+Shibari.addConverter("price",
+       {
+           to: function(value){ return "$"+value; },
+           from: function(value){ return parseFloat(value.substring(1)); }
+       });
 
-   Shibari.bind(document.getElementById('component'),item);
-   ```
+Shibari.bind(document.getElementById('component'),item);
+```
 
 Example Template:
 ----
