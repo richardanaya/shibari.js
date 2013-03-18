@@ -1,0 +1,31 @@
+body {
+    font-family: sans-serif;
+}
+
+.grocery-list {
+    border: 1px;
+    width: 300px;
+    padding: 15px;
+    position: absolute;
+    border: solid black 1px;
+    left: 50%;
+    margin-left: -165;
+    top: 100px;
+}
+
+.grocery-list .title {
+    font-weight: bold;
+}
+
+.grocery-list .input-new-item {
+    width: 250px;
+}
+
+.grocery-list .item {
+    padding: 10px 0px;
+}
+
+.grocery-list .item-close {
+    float: right;
+    cursor: pointer;
+}

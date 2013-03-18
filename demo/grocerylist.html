@@ -1,0 +1,18 @@
+<html>
+<head>
+    <link rel="stylesheet" href="grocerylist.css">
+    <script src="jquery.js"></script>
+    <script src="underscore.js"></script>
+    <script src="shibari.min.js"></script>
+    <script src="grocerylist.js"></script>
+</head>
+<body>
+<div class="grocery-list">
+    <div class="title" data-bind-content="title"></div>
+    <div class="items" data-bind-template="items">
+        <div class="item"><span class="item-name" data-bind-content="name"></span><div class="item-close" data-bind-data-id="id">X</div></div>
+    </div>
+    <input class="input-new-item" type="text"><button class="button-add-new">Add</button>
+</div>
+</body>
+</html>
