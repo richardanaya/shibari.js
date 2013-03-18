@@ -23,6 +23,12 @@ Download:
 
 Compressed Minified: [download](https://raw.github.com/richardanaya/Shibari.js/master/shibari.min.js)
 
+Important Notes:
+---
+* This library makes use of Object.observe or a polyfill if not present
+* Currently the only two-way bindings occur with input values
+* Currently depends on jquery and underscore ( make sure you include them wherever you put shibari.min.js ).
+
 Example Usage:
 ----
 ```HTML
@@ -96,12 +102,6 @@ roster.developers.sort(function(a,b){
     return 0;
 })
 ```
-
-Important Notes:
----
-* This library makes use of Object.observe or a polyfill if not present
-* Currently the only two-way bindings occur with input values
-* Currently depends on jquery
 
 How to build:
 ---
