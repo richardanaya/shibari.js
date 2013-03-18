@@ -292,6 +292,7 @@ Shibari.bindToValue = function(el,attrName,context,bindingDataString){
         });
     }
     else {
+        Shibari.setAttribute(el,attrName,Shibari.evaluateToValue(context,bd));
         //if we are binding to anything other than an INPUT value, just make it a one way binding
         Object.observe(context,function(c){
             for(var i = 0; i < c.length; i++){
