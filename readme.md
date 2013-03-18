@@ -103,6 +103,11 @@ roster.developers.sort(function(a,b){
 })
 ```
 
+Example: Grocery List:
+----
+
+You can view a more complex example of using shibari.js at the [grocery list demo](http://richardanaya.github.com/shibari.js/demo/grocerylist.html).
+
 How to build:
 ---
 
