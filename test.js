@@ -35,8 +35,4 @@ $(document).ready(function(){
 
     Shibari.bind($('#component0').get(0),a);
     Shibari.bind($('#component1').get(0),b);
-
-    setInterval(function(){
-        b.books[0].price += Math.random();
-    },1000)
 });

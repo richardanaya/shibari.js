@@ -7,17 +7,16 @@ Project Status: Alpha
 
 Current Features:
 * Two-way binding on inputs
-* One-way binding on any attribute
-* Subcontexts
+* Dynamic Array-binding
 * Converters
+* Subcontexts
 * Binding modes
-* One-way element content binding
 
 Planned Features:
-* Array-binding
 * Unbinding
 * Validators
-* Remove jquery dependency
+* Remove/contain jquery dependency
+* Remove/contain underscore dependency
 
 Download:
 ----
@@ -27,14 +26,10 @@ Compressed Minified: [download](https://raw.github.com/richardanaya/Shibari.js/m
 Example Usage:
 ----
 ```HTML
-<div id="component0">
+<div id="component">
     <input type="text" data-bind-value="fname">
     <input type="text" data-bind-value="lname">
-    <input type="number" data-bind-value="age">
-    Projects
-    <div data-bind-context="projects">
-        URL: <a data-bind-content="url"></a>
-    </div>
+    <a data-bind-content="url"></a>
 </div>
 ```
 
@@ -42,13 +37,62 @@ Example Usage:
 var person = {
     fname: "Richard",
     lname: "Anaya",
-    age: 30,
-    projects: {
-        url: "http://github.com/richardanaya"
-    }
+    url: "http://github.com/richardanaya"
 };
 
-Shibari.bind(document.getElementById('component0'),person);
+Shibari.bind(document.getElementById('component'),person);
+
+Example Converter:
+   ----
+   ```HTML
+   <div id="component">
+       <input type="text" data-bind-value="name">
+       <input type="text" data-bind-value="price">
+   </div>
+   ```
+
+   ```Javascript
+   var item = {
+       name: "Beer",
+       price: 2.5
+   };
+
+   Shibari.addConverter("price",
+           {
+               to: function(value){ return "$"+value; },
+               from: function(value){ return parseFloat(value.substring(1)); }
+           });
+
+   Shibari.bind(document.getElementById('component'),item);
+   ```
+
+Example Template:
+----
+```HTML
+<div id="component" data-bind-template="students">
+    <span data-bind-content="lastname"></span>,<span data-bind-content="firstname"></span>
+</div>
+```
+
+```Javascript
+var roster = {
+    developers = [
+        {firstname:"Howard",lastname:"Smith"},
+        {firstname:"Jason",lastname:"Dunn"},
+        {firstname:"Jack",lastname:"Standard"},
+        {firstname:"Richard",lastname:"Anaya"}
+    ]
+};
+
+Shibari.bind(document.getElementById('component'),roster);
+
+//do whatever operations you want on the array itself
+roster.developers.sort(function(a,b){
+    if(a.fname<b.firstname) return -1;
+    if(a.firstname>b.firstname) return 1;
+    return 0;
+})
+
 ```
 
 Important Notes:

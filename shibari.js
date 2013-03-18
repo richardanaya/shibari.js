@@ -202,12 +202,38 @@ Shibari.bindTemplateToValue = function(el,attrName,context,bindingDataString){
     var list = context[bd.path];
     var template = Shibari.getFirstChild(el);
     Shibari.setHTML(el,"");
-    for(var i = 0 ; i < list.length; i++){
-        var listItem = list[i];
+    var pairs = [];
+    _.observe(list, 'create', function (new_item, item_index) {
+            var clone = Shibari.clone(template);
+            Shibari.bind(clone,new_item);
+            if(pairs[item_index] === undefined){
+                Shibari.append(el,clone);
+                pairs.push({item: new_item, element:clone});
+            }
+            else {
+                $(clone).insertBefore(pairs[item_index].element);
+                pairs.splice(item_index,0,{item: new_item, element:clone});
+            }
+        }
+    );
+    _.observe(list, 'update', function (new_item, old_item, item_index) {
+        $(pairs[item_index].element).remove();
+        pairs.splice(item_index,1);
         var clone = Shibari.clone(template);
-        Shibari.bind(clone,listItem);
-        Shibari.append(el,clone);
-    }
+        Shibari.bind(clone,new_item);
+        if(pairs[item_index] === undefined){
+            Shibari.append(el,clone);
+            pairs.push({item: new_item, element:clone});
+        }
+        else {
+            $(clone).insertBefore(pairs[item_index].element);
+            pairs.splice(item_index,0,{item: new_item, element:clone});
+        }
+    });
+    _.observe(list, 'delete', function (old_item, item_index) {
+        $(pairs[item_index].element).remove();
+        pairs.splice(item_index,1);
+    });
 };
 
 Shibari.bindContentToValue = function(el,attrName,context,bindingDataString){
