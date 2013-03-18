@@ -21,7 +21,7 @@ Planned Features:
 Download:
 ----
 
-Compressed Minified: [download](https://raw.github.com/richardanaya/Shibari.js/master/shibari.min.js)
+Compressed: [download](https://raw.github.com/richardanaya/Shibari.js/master/shibari.min.js)
 
 Important Notes:
 ---
