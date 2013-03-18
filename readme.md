@@ -48,7 +48,7 @@ Example Converter:
 ```HTML
 <div id="component">
    <input type="text" data-bind-value="name">
-   <input type="text" data-bind-value="price">
+   <input type="text" data-bind-value="path:price,converter:money">
 </div>
 ```
 
@@ -58,11 +58,11 @@ var item = {
    price: 2.5
 };
 
-Shibari.addConverter("price",
-       {
-           to: function(value){ return "$"+value; },
-           from: function(value){ return parseFloat(value.substring(1)); }
-       });
+Shibari.addConverter("money",
+{
+   to: function(value){ return "$"+value; },
+   from: function(value){ return parseFloat(value.substring(1)); }
+});
 
 Shibari.bind(document.getElementById('component'),item);
 ```
